@@ -7,8 +7,11 @@ interface NodeProps {
 
 export const Node = ({ node }:NodeProps) => {
 
+    
+
     return (
         <div className="node">
+            <img src={node.img} alt="Portal icon" className="node-background" />
         </div>
     )
 }

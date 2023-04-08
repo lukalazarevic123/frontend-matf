@@ -1,0 +1,23 @@
+.map {
+    background-size: cover;
+    background-repeat: no-repeat;
+    max-width: 750px;
+    height: 600px !important;
+}
+
+.level-ide {
+    padding: 15px;
+    margin-top: 58px;
+}
+
+.level-title {
+    margin-bottom: 25px;
+}
+
+.level-description {
+
+    margin-top: 25px;
+    font-weight: 500;
+    font-size: 17px;
+    word-wrap: break-word;
+}
