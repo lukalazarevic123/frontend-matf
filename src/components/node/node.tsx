@@ -11,7 +11,7 @@ export const Node = ({ node }:NodeProps) => {
 
     return (
         <div className="node">
-            <img src={node.img} alt="Portal icon" className="node-background" />
+            <img src={node.img} alt="Node pic" className="node-background" />
         </div>
     )
 }

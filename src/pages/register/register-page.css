@@ -1,0 +1,22 @@
+body {
+    background-color: rgb(60, 37, 80);
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    color: #fefefe
+}
+
+.reg-form{
+    width: 400px;
+    padding: 20px;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    margin:auto;
+    margin-top: 120px;
+}
+
+.person-name{
+    width: 95%;
+}
