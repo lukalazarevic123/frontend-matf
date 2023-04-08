@@ -1,24 +1,21 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "./App.css";
+import { CheckAuth } from "./auth/check-auth";
+import { LevelView } from "./pages/level/level-view";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Routes>
+          {/* protected routes inside this tag */}
+          <Route element={<CheckAuth />}>
+
+          </Route>
+          <Route path="/level" element={<LevelView />}/>
+        </Routes>
+      </Router>
     </div>
   );
 }
