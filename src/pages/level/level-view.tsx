@@ -85,8 +85,10 @@ export const LevelView = () => {
         }
       );
 
+      console.log(respCode.data);
+
       setLevelData(resp.data);
-      setCode(respCode.data);
+      setCode(respCode.data.sourceCode);
     };
 
     fetchLevel();
@@ -104,7 +106,6 @@ export const LevelView = () => {
     });
     console.log(req.data);
     if (req.data.error) {
-      console.log("hey")
       setModalMessage("Please try again!");
       setShow(true);
       return;

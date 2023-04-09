@@ -29,12 +29,16 @@ export const LevelDesigner = () => {
   const [code, setCode] = useState<string>("");
 
   const saveLevel = async () => {
+    // @ts-ignore
+    const dbg = document.getElementById("our-check").checked;
+
     const level = {
       title,
       description,
       width,
       height,
       levelMap: grid,
+      debugTask: dbg,
       creatorUsername: "TODO",
     };
     const resp = await axios.post(
@@ -47,17 +51,19 @@ export const LevelDesigner = () => {
         },
       }
     );
-
+      
     const codeObj = {
       title: "Debugging problem",
       sourceCode: code,
       mapTitle: title,
-      hints: ["Yo mama so fat", "Ovo je neki moj hint"],
+      hints: [{hint: "Yo mama so fat"}, {hint: "Ovo je neki moj hint"}],
     };
 
+    console.log(code)
+    if(!dbg) return;
     const debugResp = await axios.post(
       "http://localhost:31337/db/addCode",
-      { codeObj },
+      { ...codeObj },
       {
         headers: {
           Authorization:
@@ -343,8 +349,9 @@ export const LevelDesigner = () => {
           <Form.Group className="mb-3 mt-5">
             <h3>Debugging problem?</h3>
             <Form.Check
+              id="our-check"
               type="checkbox"
-              onChange={(evt) => setDebug(evt.target.checked)}
+              onChange={(evt) => {setDebug(evt.target.checked)}}
             />
           </Form.Group>
           <div className="mt-5 mb-5" hidden={!debug}>
