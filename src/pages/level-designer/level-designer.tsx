@@ -3,8 +3,11 @@ import "./level-designer.css";
 import { Button, Container, Form, Row } from "react-bootstrap";
 import { Node } from "../../components/node/node";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const LevelDesigner = () => {
+  const navigate = useNavigate();
+
   const [width, setWidth] = useState<any>(5);
   const [height, setHeight] = useState<any>(5);
   const [selected, setSelected] = useState(0);
@@ -42,6 +45,7 @@ export const LevelDesigner = () => {
     );
 
     console.log(resp);
+    navigate("/explore");
   };
 
   const updateNode = (x: number, y: number) => {
@@ -238,7 +242,12 @@ export const LevelDesigner = () => {
               className={`entity mt-5 ${
                 selected === 1 ? "selected-entity" : ""
               }`}
-              onClick={() => changeSelected(1, "https://imagizer.imageshack.com/v2/255x220q70/r/922/8Y3PGq.png")}
+              onClick={() =>
+                changeSelected(
+                  1,
+                  "https://imagizer.imageshack.com/v2/255x220q70/r/922/8Y3PGq.png"
+                )
+              }
             >
               <img src="player.svg" style={{ padding: "10px" }} />
               Player
@@ -247,7 +256,12 @@ export const LevelDesigner = () => {
           <div className="d-block">
             <div
               className={`entity ${selected === 2 ? "selected-entity" : ""}`}
-              onClick={() => changeSelected(2, "https://imagizer.imageshack.com/v2/50x70q70/r/924/auGu9v.png")}
+              onClick={() =>
+                changeSelected(
+                  2,
+                  "https://imagizer.imageshack.com/v2/50x70q70/r/924/auGu9v.png"
+                )
+              }
             >
               <img src="portal.png" style={{ padding: "10px" }} />
               Portal
@@ -256,7 +270,12 @@ export const LevelDesigner = () => {
           <div className="d-block">
             <div
               className={`entity ${selected === 3 ? "selected-entity" : ""}`}
-              onClick={() => changeSelected(3, "https://imagizer.imageshack.com/v2/70x70q70/r/923/cls32T.png")}
+              onClick={() =>
+                changeSelected(
+                  3,
+                  "https://imagizer.imageshack.com/v2/70x70q70/r/923/cls32T.png"
+                )
+              }
             >
               <img src="obstacle.png" />
               Obstacle
@@ -265,7 +284,12 @@ export const LevelDesigner = () => {
           <div className="d-block">
             <div
               className={`entity ${selected === 4 ? "selected-entity" : ""}`}
-              onClick={() => changeSelected(4, "https://imagizer.imageshack.com/v2/70x70q70/r/924/0q9G01.png")}
+              onClick={() =>
+                changeSelected(
+                  4,
+                  "https://imagizer.imageshack.com/v2/70x70q70/r/924/0q9G01.png"
+                )
+              }
             >
               <img src="finish.png" style={{ padding: "10px" }} />
               Finish

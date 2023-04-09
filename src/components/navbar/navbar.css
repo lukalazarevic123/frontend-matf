@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+
+.nav-link{
+    font-size: 40px;
+    font-family: 'Inconsolata', monospace;
+    color:white;
+    font-weight: light;
+    padding-right: 60px;
+    margin-right: 10px; 
+
+}
+.nav-link1{
+    font-size: 40px;
+    font-family: 'Inconsolata', monospace;
+    color:white;
+    font-weight: bold;
+    padding-right: 60px;
+    margin-right: 0px; 
+}
+
+.nav-container {
+    width: 70%;
+    margin: auto;
+    margin-top: 30px;
+
+    padding: 10px;
+
+    border: 1px solid black;
+    border-radius: 30px;
+
+    background-color: #7808f8;
+}

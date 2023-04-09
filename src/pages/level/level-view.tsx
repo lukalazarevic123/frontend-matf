@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import Row from "react-bootstrap/esm/Row";
 import Form from "react-bootstrap/esm/Form";
 import { Node } from "../../components/node/node";
@@ -52,12 +52,12 @@ export const LevelView = () => {
   });
 
   const [code, setCode] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { title } = useParams();
 
   useEffect(() => {
     const fetchLevel = async () => {
-      
       const resp = await axios.get(
         `http://localhost:31337/db/getMap/${title}`,
         {
@@ -67,8 +67,8 @@ export const LevelView = () => {
           },
         }
       );
-      console.log(resp.data)
-      setLevelData(resp.data)
+      console.log(resp.data);
+      setLevelData(resp.data);
     };
 
     fetchLevel();
@@ -79,10 +79,71 @@ export const LevelView = () => {
       alert("Can't submit this");
       return;
     }
-    
-    const req = await axios.post("http://localhost:31337/game/check", {source: code, title});
 
-    console.log(req.data);
+    const req = await axios.post("http://localhost:31337/game/check", {
+      source: code,
+      title,
+    });
+
+    if (req.data.error) {
+      //open modal
+    }
+
+    setLoading(true);
+
+    simulateMoves(req.data.commandList);
+
+    setLoading(false)
+  };
+
+  const findPlayer = () => {
+    for (let i = 0; i < levelData.levelMap.length; i++) {
+      for (let j = 0; j < levelData.levelMap[i].length; j++) {
+        if (levelData.levelMap[i][j].type == 2) {
+          return { i, j };
+        }
+      }
+    }
+  };
+
+  const simulateMoves = async (commandList: any) => {
+    const playerCoord = findPlayer();
+    console.log(playerCoord);
+    // @ts-ignore
+    let tempX = playerCoord.i;
+    // @ts-ignore
+    let tempY = playerCoord.j;
+    let tempImg = "";
+    for (let i = 0; i < commandList.length; i++) {
+      let currTempImage =
+        levelData.levelMap[commandList[i].x][commandList[i].y].img;
+      executeMove(commandList[i].x, commandList[i].y, tempX, tempY, tempImg);
+      console.log(commandList[i].x, commandList[i].y, tempX, tempY);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      tempImg = currTempImage;
+      tempX = commandList[i].x;
+      tempY = commandList[i].y;
+    }
+  };
+
+  const executeMove = (
+    x: number,
+    y: number,
+    oldX: number,
+    oldY: number,
+    oldImg: string
+  ) => {
+    const newGrid = { ...levelData };
+
+    newGrid.levelMap[oldX][oldY].img = oldImg;
+    newGrid.levelMap[oldX][oldY].type = 0;
+
+    newGrid.levelMap[x][y].img =
+      "https://imagizer.imageshack.com/v2/255x220q70/r/922/8Y3PGq.png";
+    newGrid.levelMap[x][y].type = 2;
+
+    setLevelData({ ...newGrid });
   };
 
   return (
@@ -134,8 +195,13 @@ export const LevelView = () => {
               <option value="java">Java</option>
               <option value="cpp">C++</option>
             </Form.Select>
-
-            <Button onClick={submitCode}>Submit</Button>
+            {loading ? (
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            ) : (
+              <Button onClick={submitCode}>Submit</Button>
+            )}
           </div>
         </div>
       </div>

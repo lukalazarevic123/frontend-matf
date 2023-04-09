@@ -7,10 +7,12 @@ import { LoginPage } from "./pages/login/login-page";
 import { RegisterPage } from "./pages/register/register-page";
 import { LevelDesigner } from "./pages/level-designer/level-designer";
 import { AllLevels } from "./pages/all-levels/all-levels";
+import { NavBar } from "./components/navbar/navbar";
 
 function App() {
   return (
     <div className="App">
+      <NavBar />
       <Router>
         <Routes>
           {/* protected routes inside this tag */}
