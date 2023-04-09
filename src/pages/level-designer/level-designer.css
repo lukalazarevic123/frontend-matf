@@ -1,7 +1,9 @@
 .editable-map {
     background-size: cover;
     background-repeat: no-repeat;
-    max-width: 750px;
+    
+    border: 10px solid #7808f8;
+    border-radius: 15px;
 }
 
 .disabled {

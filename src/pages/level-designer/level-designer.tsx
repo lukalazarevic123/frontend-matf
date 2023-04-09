@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 import "./level-designer.css";
 import { Button, Container, Form, Row } from "react-bootstrap";
 import { Node } from "../../components/node/node";
@@ -24,6 +25,9 @@ export const LevelDesigner = () => {
   const [title, setTitle] = useState<any>("");
   const [description, setDescription] = useState<any>("");
 
+  const [debug, setDebug] = useState<boolean>(false);
+  const [code, setCode] = useState<string>("");
+
   const saveLevel = async () => {
     const level = {
       title,
@@ -44,6 +48,23 @@ export const LevelDesigner = () => {
       }
     );
 
+    const codeObj = {
+      title: "Debugging problem",
+      sourceCode: code,
+      mapTitle: title,
+      hints: ["Yo mama so fat", "Ovo je neki moj hint"],
+    };
+
+    const debugResp = await axios.post(
+      "http://localhost:31337/db/addCode",
+      { codeObj },
+      {
+        headers: {
+          Authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidmlkcmFqb2tzaW0iLCJpYXQiOjE2ODA5ODkyNDB9.sjxVNqBWiPKSATbRuR8KCPtEwqrk6aLqk5uIdo44uDo",
+        },
+      }
+    );
     console.log(resp);
     navigate("/explore");
   };
@@ -234,7 +255,7 @@ export const LevelDesigner = () => {
           className={`d-block mt-5 ${portalCnt % 2 == 1 ? "disabled" : ""}`}
           style={{ marginLeft: "50px" }}
         >
-          <h2>Components</h2>
+          <h2 style={{ marginTop: "0px" }}>Components</h2>
           <div
             className={`d-block mt-5 ${portalCnt % 2 == 1 ? "disabled" : ""}`}
           >
@@ -318,6 +339,31 @@ export const LevelDesigner = () => {
               }}
             />
           </Form.Group>
+
+          <Form.Group className="mb-3 mt-5">
+            <h3>Debugging problem?</h3>
+            <Form.Check
+              type="checkbox"
+              onChange={(evt) => setDebug(evt.target.checked)}
+            />
+          </Form.Group>
+          <div className="mt-5 mb-5" hidden={!debug}>
+            <CodeEditor
+              value={code}
+              language="js"
+              placeholder="Please enter JS code."
+              onChange={(evn) => setCode(evn.target.value)}
+              style={{
+                width: "500px",
+                height: "730px",
+                fontSize: 15,
+                backgroundColor: "#000000",
+                fontFamily:
+                  "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                borderRadius: "10px",
+              }}
+            />
+          </div>
         </div>
       </div>
     </Container>

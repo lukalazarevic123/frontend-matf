@@ -2,6 +2,9 @@
     background-size: cover;
     background-repeat: no-repeat;
     padding: 10px;
+
+    border: 10px solid #7808f8;
+    border-radius: 15px;
 }
 
 .level-ide {

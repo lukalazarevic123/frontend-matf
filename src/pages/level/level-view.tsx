@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CodeEditor from "@uiw/react-textarea-code-editor";
-import { Button, Container, Spinner } from "react-bootstrap";
+import { Button, Container, Modal, Spinner } from "react-bootstrap";
 import Row from "react-bootstrap/esm/Row";
 import Form from "react-bootstrap/esm/Form";
 import { Node } from "../../components/node/node";
@@ -53,8 +53,15 @@ export const LevelView = () => {
 
   const [code, setCode] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
+
+  const [modalMessage, setModalMessage] = useState<string>("");
 
   const { title } = useParams();
+
+  const handleClose = () => {
+    setShow(false);
+  };
 
   useEffect(() => {
     const fetchLevel = async () => {
@@ -67,8 +74,19 @@ export const LevelView = () => {
           },
         }
       );
-      console.log(resp.data);
+
+      const respCode = await axios.get(
+        `http://localhost:31337/db/getCode/${title}`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidmlkcmFqb2tzaW0iLCJpYXQiOjE2ODA5ODkyNDB9.sjxVNqBWiPKSATbRuR8KCPtEwqrk6aLqk5uIdo44uDo",
+          },
+        }
+      );
+
       setLevelData(resp.data);
+      setCode(respCode.data);
     };
 
     fetchLevel();
@@ -84,16 +102,25 @@ export const LevelView = () => {
       source: code,
       title,
     });
-
+    console.log(req.data);
     if (req.data.error) {
-      //open modal
+      console.log("hey")
+      setModalMessage("Please try again!");
+      setShow(true);
+      return;
     }
 
     setLoading(true);
 
-    simulateMoves(req.data.commandList);
+    await simulateMoves(req.data.commandList);
 
-    setLoading(false)
+    setLoading(false);
+
+    if (req.data.finished) {
+      setModalMessage("Congratulations!");
+      setShow(true);
+      return;
+    }
   };
 
   const findPlayer = () => {
@@ -148,7 +175,7 @@ export const LevelView = () => {
 
   return (
     <Container className="mt-5 mb-5">
-      <div className="d-flex">
+      <div className="d-flex justify-content-between">
         {/* left side */}
         <div className="d-block">
           <h1 className="level-title">{levelData.title}</h1>
@@ -205,6 +232,20 @@ export const LevelView = () => {
           </div>
         </div>
       </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Results</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{modalMessage}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

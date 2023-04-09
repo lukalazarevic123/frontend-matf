@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&display=swap');
+body {
+    background-color: rgb(60, 37, 80);
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+  }
+
+h2 {
+    margin-top: 100px;
+    font-size: 70px;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bold; /* Example of setting font weight */
+    color: #fff; /* Example of setting font color */
+    /* Add other font styles as needed */
+  }
+
+h3{
+    margin-top: 10px;
+    font-size: 30px;
+    font-family: 'Inconsolata', monospace;
+    font-weight: light; /* Example of setting font weight */
+    color: #fff; /* Example of setting font color */
+    /* Add other font styles as needed */
+}
+h4{
+  margin-top: 50px;
+  font-size: 50px;
+  font-family: 'Inconsolata', monospace;
+  font-weight: bold; /* Example of setting font weight */
+  color: #fff; /* Example of setting font color */
+  /* Add other font styles as needed */
+}
+
+
+  #landingBtn {
+    margin-top: 150px;
+    font-size: 26px; 
+    background-color: #7808f8;
+    color: #fff; 
+    padding: 18px 36px; 
+   
+    margin-left: 40%;
+
+  }
+ 
+
+  #amico {
+    width: 300px; /* Set width of the image */
+    height: auto; /* Set height to auto to maintain aspect ratio */
+    position: relative; /* Set the position property to absolute */
+    bottom: -90px;
+  }
+   
+ #logo{
+  position:absolute;
+  width:200px;
+  height:auto;
+  left:5%
+ }

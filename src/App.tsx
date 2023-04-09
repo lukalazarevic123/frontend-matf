@@ -8,6 +8,7 @@ import { RegisterPage } from "./pages/register/register-page";
 import { LevelDesigner } from "./pages/level-designer/level-designer";
 import { AllLevels } from "./pages/all-levels/all-levels";
 import { NavBar } from "./components/navbar/navbar";
+import { LandingPage } from "./pages/landing/landing";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/create" element={<LevelDesigner />} />
           <Route path="/explore" element={<AllLevels />} />
+          <Route path="/home" element={<LandingPage />} />
         </Routes>
       </Router>
     </div>
