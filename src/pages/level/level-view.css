@@ -1,8 +1,7 @@
 .map {
     background-size: cover;
     background-repeat: no-repeat;
-    max-width: 750px;
-    height: 600px !important;
+    padding: 10px;
 }
 
 .level-ide {

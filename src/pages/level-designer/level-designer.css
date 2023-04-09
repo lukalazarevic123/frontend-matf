@@ -1,0 +1,39 @@
+.editable-map {
+    background-size: cover;
+    background-repeat: no-repeat;
+    max-width: 750px;
+}
+
+.disabled {
+    pointer-events: none;
+}
+
+.dimension-select {
+    width: 300px;
+}
+
+.entity {
+    border: 1px solid black;
+    border-radius: 15px;
+    justify-content: space-between;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.entity:hover {
+    user-select: none;
+    cursor: pointer;
+}
+
+.entity > img {
+    width: 70px;
+    height: 70px;
+    border-radius: 30px;;
+}
+
+.selected-entity {
+    box-shadow: 0px 5px 20px 1px;
+    background-color: #7808f8;
+}
+

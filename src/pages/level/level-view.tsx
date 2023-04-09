@@ -5,12 +5,14 @@ import Row from "react-bootstrap/esm/Row";
 import Form from "react-bootstrap/esm/Form";
 import { Node } from "../../components/node/node";
 import "./level-view.css";
+import { useParams, useSearchParams } from "react-router-dom";
+import axios from "axios";
 
 interface ILevel {
   width: number;
   height: number;
   rating: number;
-  grid: any;
+  levelMap: any;
   title: string;
   description: string;
 }
@@ -19,7 +21,7 @@ export const LevelView = () => {
   const [levelData, setLevelData] = useState<ILevel>({
     width: 10,
     height: 10,
-    grid: [
+    levelMap: [
       [
         {
           type: "player",
@@ -51,15 +53,36 @@ export const LevelView = () => {
 
   const [code, setCode] = useState<string>("");
 
-  useEffect(() => {}, []);
+  const { title } = useParams();
+
+  useEffect(() => {
+    const fetchLevel = async () => {
+      
+      const resp = await axios.get(
+        `http://localhost:31337/db/getMap/${title}`,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoidmlkcmFqb2tzaW0iLCJpYXQiOjE2ODA5ODkyNDB9.sjxVNqBWiPKSATbRuR8KCPtEwqrk6aLqk5uIdo44uDo",
+          },
+        }
+      );
+      console.log(resp.data)
+      setLevelData(resp.data)
+    };
+
+    fetchLevel();
+  }, []);
 
   const submitCode = async () => {
     if (code === "") {
       alert("Can't submit this");
       return;
     }
-    console.log(code);
-    // const req = await axios.post("http://localhost:5000/")
+    
+    const req = await axios.post("http://localhost:31337/game/check", {source: code, title});
+
+    console.log(req.data);
   };
 
   return (
@@ -74,7 +97,7 @@ export const LevelView = () => {
               backgroundImage: "url(/map-background.jpeg)",
             }}
           >
-            {levelData?.grid.map((row: any, rowIdx: number) => {
+            {levelData?.levelMap.map((row: any, rowIdx: number) => {
               return (
                 <Row key={rowIdx}>
                   {row.map((node: any, nodeIdx: number) => {
@@ -100,7 +123,7 @@ export const LevelView = () => {
               backgroundColor: "#000000",
               fontFamily:
                 "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-                borderRadius: "10px"
+              borderRadius: "10px",
             }}
           />
 
