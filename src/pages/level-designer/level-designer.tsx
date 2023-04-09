@@ -28,6 +28,15 @@ export const LevelDesigner = () => {
   const [debug, setDebug] = useState<boolean>(false);
   const [code, setCode] = useState<string>("");
 
+  const [hints, setHints] = useState<any>([]);
+  const [hintText, setHint] = useState<any>({});
+
+  const insertHint = () => {
+    const newHints = [...hints, { hint: hintText }];
+
+    setHints(newHints);
+  };
+
   const saveLevel = async () => {
     // @ts-ignore
     const dbg = document.getElementById("our-check").checked;
@@ -51,16 +60,16 @@ export const LevelDesigner = () => {
         },
       }
     );
-      
+
     const codeObj = {
       title: "Debugging problem",
       sourceCode: code,
       mapTitle: title,
-      hints: [{hint: "Yo mama so fat"}, {hint: "Ovo je neki moj hint"}],
+      hints,
     };
 
-    console.log(code)
-    if(!dbg) return;
+    console.log(code);
+    if (!dbg) return;
     const debugResp = await axios.post(
       "http://localhost:31337/db/addCode",
       { ...codeObj },
@@ -321,6 +330,26 @@ export const LevelDesigner = () => {
               <img src="finish.png" style={{ padding: "10px" }} />
               Finish
             </div>
+
+            <div className="hint-factory">
+              <div className="d-flex justify-content-between">
+                <textarea
+                  className="w-75"
+                  rows={3}
+                  onChange={(evt) => {
+                    setHint(evt.target.value);
+                  }}
+                ></textarea>
+                <Button variant="success" className="h-25" onClick={() => insertHint()}>
+                  Add
+                </Button>
+              </div>
+              {hints.map((ht:any, idx:number) =>(
+                  <li className="mt-2 mb-2">
+                    {ht.hint}
+                  </li>
+                ))}
+            </div>
           </div>
         </div>
         <div className="d-block mt-5 w-25" style={{ marginLeft: "50px" }}>
@@ -351,7 +380,9 @@ export const LevelDesigner = () => {
             <Form.Check
               id="our-check"
               type="checkbox"
-              onChange={(evt) => {setDebug(evt.target.checked)}}
+              onChange={(evt) => {
+                setDebug(evt.target.checked);
+              }}
             />
           </Form.Group>
           <div className="mt-5 mb-5" hidden={!debug}>

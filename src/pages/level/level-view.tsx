@@ -106,7 +106,7 @@ export const LevelView = () => {
     });
     console.log(req.data);
     if (req.data.error) {
-      setModalMessage("Please try again!");
+      setModalMessage(req.data.error);
       setShow(true);
       return;
     }
@@ -233,7 +233,7 @@ export const LevelView = () => {
           </div>
         </div>
       </div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal className="text-dark" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Results</Modal.Title>
         </Modal.Header>
@@ -242,9 +242,7 @@ export const LevelView = () => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
+
         </Modal.Footer>
       </Modal>
     </Container>
